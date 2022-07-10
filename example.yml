@@ -1,0 +1,25 @@
+- hosts: localhost
+  connection: local
+  vars:
+    database: example
+    users:
+      - name: alice
+        password: password
+        privs: all
+  tasks:
+    - name: Create database
+      postgresql_db:
+        name: '{{ database }}'
+    - name: Create user
+      postgresql_user:
+        name: '{{ item.name }}'
+        password: '{{ item.password }}'
+      loop: '{{ users }}'
+    - name: Grant user database permissions
+      postgresql_privs:
+        type: database
+        database: '{{ database }}'
+        roles: '{{ item.name }}'
+        privs: '{{ item.privs }}'
+        grant_option: false
+      loop: '{{ users }}'

@@ -1,0 +1,4 @@
+collections:
+  # see https://galaxy.ansible.com/community/postgresql
+  - name: community.postgresql
+    version: 2.1.5
