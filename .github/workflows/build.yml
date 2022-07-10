@@ -1,10 +1,16 @@
 name: build
 on:
   - push
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 jobs:
   build:
     name: Build
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v3
       - name: Build the ansible execution environment
@@ -13,3 +19,26 @@ jobs:
         run: ./ansible-lint.sh --offline --parseable example.yml
       - name: Test
         run: ./test.sh
+      # publish container image to ghcr.io.
+      # see https://docs.github.com/en/actions/publishing-packages/publishing-docker-images#publishing-images-to-github-packages
+      # see https://github.com/docker/login-action
+      - name: Log in registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      # see https://github.com/docker/metadata-action
+      - name: Deduce container metadata from environment
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      # see https://github.com/docker/build-push-action
+      - name: Build and push container image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
