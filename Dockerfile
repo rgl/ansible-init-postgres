@@ -43,6 +43,15 @@ ansible-galaxy role install \
     -p /usr/share/ansible/roles
 EOF
 
+# install the default inventory.
+# NB this prevents the warning:
+#       [WARNING]: No inventory was parsed, only implicit localhost is available
+#       [WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+COPY <<EOF /etc/ansible/hosts
+[hosts]
+localhost ansible_host=127.0.0.1
+EOF
+
 # install the binaries.
 COPY --chmod=0755 ansible-init-postgres.sh /bin/ansible-init-postgres
 
