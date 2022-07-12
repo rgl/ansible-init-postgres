@@ -12,6 +12,7 @@ To use in a Ansible Playbook Kubernetes Job do as:
 
 ```yml
 # try kubectl logs -n yugabytedb jobs/initialize-dex-database
+# NB as an alternative/complement see https://github.com/coderanger/migrations-operator.
 - name: Initialize the dex database
   block:
     # NB unfortunately we need this delete step because using force:true fails
