@@ -1,12 +1,17 @@
 #!/bin/bash
 set -euo pipefail
 
-# (re)start the test environment in background.
-docker compose down
+# destroy the existing environment.
+echo "destroying the existing environment..."
+docker compose down --volumes --remove-orphans
+
+# start the environment in background.
+echo "creating the environment..."
 docker compose up --build --detach
 
 # wait for the init and test services to exit.
 function wait-for-service {
+    echo "waiting for the $1 service to exit..."
     while true; do
         result="$(docker compose ps --status exited --format json $1)"
         if [ -n "$result" ] && [ "$result" != 'null' ]; then
