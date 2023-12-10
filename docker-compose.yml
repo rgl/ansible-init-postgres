@@ -15,10 +15,6 @@ services:
     # see https://www.postgresql.org/docs/11/libpq-envars.html
     environment:
       - PGHOST=postgres
-      # NB unfortunately, the postgresql ansible modules are not
-      #    using this PGPORT, so we have to explicitly use this
-      #    value in each module invocation.
-      #    see https://github.com/ansible-collections/community.postgresql/issues/311
       - PGPORT=5432
       - PGUSER=postgres
       - PGPASSWORD=password
@@ -36,12 +32,10 @@ services:
             - name: Create database
               postgresql_db:
                 name: '{{ database }}'
-                port: "{{ lookup('ansible.builtin.env', 'PGPORT') }}"
             - name: Create user
               postgresql_user:
                 name: '{{ item.name }}'
                 password: '{{ item.password }}'
-                port: "{{ lookup('ansible.builtin.env', 'PGPORT') }}"
               loop: '{{ users }}'
             - name: Grant user database permissions
               postgresql_privs:
@@ -50,7 +44,6 @@ services:
                 roles: '{{ item.name }}'
                 privs: '{{ item.privs }}'
                 grant_option: false
-                port: "{{ lookup('ansible.builtin.env', 'PGPORT') }}"
               loop: '{{ users }}'
   test:
     depends_on:

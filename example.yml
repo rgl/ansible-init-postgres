@@ -10,12 +10,10 @@
     - name: Create database
       postgresql_db:
         name: '{{ database }}'
-        port: "{{ lookup('ansible.builtin.env', 'PGPORT') | default('5432', true) }}"
     - name: Create user
       postgresql_user:
         name: '{{ item.name }}'
         password: '{{ item.password }}'
-        port: "{{ lookup('ansible.builtin.env', 'PGPORT') | default('5432', true) }}"
       loop: '{{ users }}'
     - name: Grant user database permissions
       postgresql_privs:
@@ -24,5 +22,4 @@
         roles: '{{ item.name }}'
         privs: '{{ item.privs }}'
         grant_option: false
-        port: "{{ lookup('ansible.builtin.env', 'PGPORT') | default('5432', true) }}"
       loop: '{{ users }}'

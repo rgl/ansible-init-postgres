@@ -51,10 +51,6 @@ To use in a Ansible Playbook Kubernetes Job do as:
                       # see https://www.postgresql.org/docs/11/libpq-envars.html
                       - name: PGHOST
                         value: yb-tservers.yugabytedb
-                      # NB unfortunately, the postgresql ansible modules are not
-                      #    using this PGPORT, so we have to explicitly use this
-                      #    value in each module invocation.
-                      #    see https://github.com/ansible-collections/community.postgresql/issues/311
                       - name: PGPORT
                         value: '5433'
                       - name: PGUSER
@@ -77,12 +73,10 @@ To use in a Ansible Playbook Kubernetes Job do as:
                             - name: Create database
                               postgresql_db:
                                 name: '{{ database }}'
-                                port: "{{ lookup('ansible.builtin.env', 'PGPORT') }}"
                             - name: Create user
                               postgresql_user:
                                 name: '{{ item.name }}'
                                 password: '{{ item.password }}'
-                                port: "{{ lookup('ansible.builtin.env', 'PGPORT') }}"
                               loop: '{{ users }}'
                             - name: Grant user database permissions
                               postgresql_privs:
@@ -91,7 +85,6 @@ To use in a Ansible Playbook Kubernetes Job do as:
                                 roles: '{{ item.name }}'
                                 privs: '{{ item.privs }}'
                                 grant_option: false
-                                port: "{{ lookup('ansible.builtin.env', 'PGPORT') }}"
                               loop: '{{ users }}'
                         {%- endraw -%}
                 restartPolicy: Never
