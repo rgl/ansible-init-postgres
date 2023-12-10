@@ -71,15 +71,15 @@ To use in a Ansible Playbook Kubernetes Job do as:
                                 privs: all
                           tasks:
                             - name: Create database
-                              postgresql_db:
+                              community.postgresql.postgresql_db:
                                 name: '{{ database }}'
                             - name: Create user
-                              postgresql_user:
+                              community.postgresql.postgresql_user:
                                 name: '{{ item.name }}'
                                 password: '{{ item.password }}'
                               loop: '{{ users }}'
                             - name: Grant user database permissions
-                              postgresql_privs:
+                              community.postgresql.postgresql_privs:
                                 type: database
                                 database: '{{ database }}'
                                 roles: '{{ item.name }}'
