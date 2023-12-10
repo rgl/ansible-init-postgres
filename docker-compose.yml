@@ -3,8 +3,8 @@
 services:
   postgres:
     # see https://hub.docker.com/_/postgres
-    # see https://github.com/docker-library/postgres/tree/master/11/bullseye
-    image: postgres:11-bullseye
+    # see https://github.com/docker-library/postgres/tree/master/16/bookwork
+    image: postgres:16-bookworm
     environment:
       - POSTGRES_PASSWORD=password
     restart: on-failure
@@ -12,7 +12,7 @@ services:
     depends_on:
       - postgres
     build: .
-    # see https://www.postgresql.org/docs/11/libpq-envars.html
+    # see https://www.postgresql.org/docs/16/libpq-envars.html
     environment:
       - PGHOST=postgres
       - PGPORT=5432
@@ -49,7 +49,7 @@ services:
     depends_on:
       - postgres
     build: .
-    # see https://www.postgresql.org/docs/11/libpq-envars.html
+    # see https://www.postgresql.org/docs/16/libpq-envars.html
     environment:
       - PGHOST=postgres
       - PGPORT=5432

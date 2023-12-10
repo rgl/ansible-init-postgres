@@ -48,7 +48,7 @@ To use in a Ansible Playbook Kubernetes Job do as:
                   - name: init
                     image: ghcr.io/rgl/ansible-init-postgres:main
                     env:
-                      # see https://www.postgresql.org/docs/11/libpq-envars.html
+                      # see https://www.postgresql.org/docs/16/libpq-envars.html
                       - name: PGHOST
                         value: yb-tservers.yugabytedb
                       - name: PGPORT
