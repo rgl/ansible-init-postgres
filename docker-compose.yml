@@ -72,6 +72,9 @@ services:
               error_message = str(err)
               if 'could not connect to server' in error_message:
                 pass
+              # e.g. connection to server at "postgres" (192.168.144.2), port 5432 failed: Connection refused\nIs the server running on that host and accepting TCP/IP connections?
+              elif 'Connection refused' in error_message:
+                pass
               # e.g. the database system is starting up
               elif 'the database system is starting up' in error_message:
                 pass
