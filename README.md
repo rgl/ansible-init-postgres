@@ -96,3 +96,10 @@ Lint the `example.yml` playbook:
 ```bash
 ./ansible-lint.sh --offline --parseable example.yml
 ```
+
+List this repository dependencies (and which have newer versions):
+
+```bash
+export GITHUB_COM_TOKEN='YOUR_GITHUB_PERSONAL_TOKEN'
+./renovate.sh
+```
