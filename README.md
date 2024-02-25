@@ -1,6 +1,6 @@
 # About
 
-[![Build status](https://github.com/rgl/ansible-init-postgres/workflows/build/badge.svg)](https://github.com/rgl/ansible-init-postgres/actions?query=workflow%3Abuild)
+[![Build status](https://github.com/rgl/ansible-init-postgres/actions/workflows/build.yml/badge.svg)](https://github.com/rgl/ansible-init-postgres/actions/workflows/build.yml)
 
 This initializes a PostgreSQL database with a Ansible playbook.
 
