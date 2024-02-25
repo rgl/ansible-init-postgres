@@ -90,3 +90,9 @@ To use in a Ansible Playbook Kubernetes Job do as:
                 restartPolicy: Never
             backoffLimit: 1
 ```
+
+Lint the `example.yml` playbook:
+
+```bash
+./ansible-lint.sh --offline --parseable example.yml
+```
